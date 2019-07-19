@@ -4,6 +4,7 @@ use Pythons standard [logging module](https://docs.python.org/3/library/logging.
 ~
 
 ~ Must {#python-specific-logging-named-loggers}
+<<<<<<< HEAD
 provide a named logger for your library. The logger for your package **must** use the name of the module. The library **may** provide additional child loggers. If provided, additional child loggers *must* be documented.
 
 Ex.
@@ -23,6 +24,29 @@ use the `ERROR` logging level for failures that it is unlikely that the applicat
 ~ Must {#python-logging-levels-warning}
 use the `WARNING` logging level when a function fails to perform its intended task. This generally means that the function will raise an exception.
 It does not include occurances of self-healing events (e.g. when a request will be automatically retried)
+=======
+provide a named logger for your library.
+
+The logger for your package **must** use the name of the module. The library may provide additional child loggers. If child loggers are provided, document them.
+
+For example:
+- Package name: `azure-someservice`
+- Module name: `azure.someservice`
+- Logger name: `azure.someservice`
+- Child logger: `azure.someservice.achild`
+
+These naming rules allow the consumer to enable logging for all Azure libraries, a specific client library, or a subset of a client library.
+~
+
+~ Must {#python-logging-levels-error}
+use the `ERROR` logging level for failures where it's unlikely the application will recover (for example, out of memory).
+~
+
+~ Must {#python-logging-levels-warning}
+use the `WARNING` logging level when a function fails to perform its intended task. The function should also raise an exception.
+
+Don't include occurrences of self-healing events (for example, when a request will be automatically retried).
+>>>>>>> upstream/master
 ~
 
 ~ Must {#python-logging-levels-informational}
@@ -30,6 +54,7 @@ use the `INFO` logging level when a function operates normally.
 ~
 
 ~ Must {#python-logging-levels-debug}
+<<<<<<< HEAD
 use the `DEBUG` logging level for detailed trouble shooting scenarios. This is primarily intended for developers or system administrators to diagnose specific failures.
 ~
 
@@ -49,4 +74,27 @@ log an `INFO` message, if a service call is cancelled.
 log exceptions thrown as a `WARNING` level message. If the log level set to `DEBUG`, append stack trace information to the message. 
 
 You can determine the logging level for a given logger by calling [`logging.Logger.isEnabledFor`](https://docs.python.org/3/library/logging.html#logging.Logger.isEnabledFor)
+=======
+use the `DEBUG` logging level for detailed trouble shooting scenarios.
+
+The `DEBUG` logging level is intended for developers or system administrators to diagnose specific failures.
+~
+
+~ MustNot {#python-logging-no-sensitive-info}
+send sensitive information in log levels other than `DEBUG`.  For example, redact or remove account keys when logging headers.
+~
+
+~ Must {#python-logging-requests-in-info}
+log the request line, response line, and headers for an outgoing request as an `INFO` message.
+~
+
+~ Must {#python-logging-info-if-cancelled}
+log an `INFO` message, if a service call is canceled.
+~
+
+~ Must {#python-logging-error-if-exceptions}
+log exceptions thrown as a `WARNING` level message. If the log level set to `DEBUG`, append stack trace information to the message.
+
+You can determine the logging level for a given logger by calling [`logging.Logger.isEnabledFor`](https://docs.python.org/3/library/logging.html#logging.Logger.isEnabledFor).
+>>>>>>> upstream/master
 ~

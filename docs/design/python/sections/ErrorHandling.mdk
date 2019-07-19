@@ -1,7 +1,11 @@
 ## Error handling
 
 ~ Must
+<<<<<<< HEAD
 raise exceptions if a method fails to perform its intended functionality. Returning `None` or a `boolean` to indicate errors is to be avoided. 
+=======
+raise an exception if a method fails to perform its intended functionality. Don't return `None` or a `boolean` to indicate errors.
+>>>>>>> upstream/master
 
 ```python
 # Yes
@@ -17,11 +21,18 @@ if not resource:
 ```
 ~
 
+<<<<<<< HEAD
 ~ Must
 consider what logical operation a function is supposed to fill when determining when determining if you should throw an exception.
 
 Consider an `exists` method - the method **must** distinguish between the service returned a client error 404/NotFound and a failure to even make a request:
 
+=======
+~ MustNot
+throw an exception for "normal responses".
+
+Consider an `exists` method. The method **must** distinguish between the service returned a client error 404/NotFound and a failure to even make a request:
+>>>>>>> upstream/master
 
 ```python
 # Yes
@@ -41,6 +52,7 @@ except azure.core.errors.ResourceNotFoundException:
 ~
 
 ~ ShouldNot
+<<<<<<< HEAD
 create a new error type unless the developer can perform an alternate action to remediate the error.  Specialized error types should be based on existing error types present in the Azure Core package.
 ~
 
@@ -60,6 +72,29 @@ ensure that if the service returns rich error information (via the response head
 
 ~ Must
 document the errors that are produced by each method (with the exception of commonly thrown errors that are generally not documented in the target language).
+=======
+create a new exception type unless the developer can remediate the error by doing something different.  Specialized exception types should be based on existing exception types present in the `azure-core` package.
+~
+
+~ Must
+produce an error when an HTTP request fails with an unsuccessful HTTP status code (as defined by the service).
+~
+
+~ Must
+include the HTTP response (status code and headers) and originating request (URL, query parameters, and headers) in the exception.  
+
+For higher-level methods that use multiple HTTP requests, either the last exception or an aggregate exception of all failures should be produced.
+~
+
+~ Must
+include any service-specific error information in the exception.  Service-specific error information must be available in service-specific properties or fields.
+~
+
+~ Must
+document the errors that are produced by each method.
+
+Don't document commonly thrown errors that wouldn't normally be documented in Python.
+>>>>>>> upstream/master
 ~
 
 ~ MustNot
